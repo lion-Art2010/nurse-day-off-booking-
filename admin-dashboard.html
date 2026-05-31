@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+</head>
+
+<body onload="
+loadNurses();
+loadRequests();
+loadStats();
+loadChart();
+loadBookingCalendar();
+">
+<div class="container">
+
+        <h1>Admin Dashboard</h1>
+
+<div class="stats-container">
+
+    <div class="stat-card">
+        <h2 id="totalNurses">0</h2>
+        <p>Total Nurses</p>
+    </div>
+
+<h3>System Analytics</h3>
+
+<div class="chart-container">
+
+    <canvas
+        id="analyticsChart"
+    ></canvas>
+
+</div>
+
+    <div class="stat-card">
+        <h2 id="totalBookings">0</h2>
+        <p>Total Bookings</p>
+    </div>
+
+    <div class="stat-card">
+        <h2 id="pendingRequests">0</h2>
+        <p>Pending Requests</p>
+    </div>
+
+</div>
+
+<button onclick="toggleDarkMode()">
+    🌙 Dark Mode
+</button>
+
+        <button
+    class="logout-btn"
+    onclick="logout()"
+>
+    Logout
+</button>
+
+        <hr>
+
+        <h3>Bookings</h3>
+        <div id="bookingList"></div>
+
+<hr>
+
+<h3>Booking Calendar</h3>
+
+<div class="calendar-controls">
+
+    <button onclick="previousMonth()">
+        ← Previous
+    </button>
+
+    <h2 id="calendarTitle">
+        Calendar
+    </h2>
+
+    <button onclick="nextMonth()">
+        Next →
+    </button>
+
+</div>
+
+<div id="bookingCalendar"></div>
+        <hr>
+
+        <h3>Extra Requests</h3>
+        <div id="requestList"></div>
+
+        <hr>
+
+        <h3>Pending Nurses</h3>
+        <div id="nurseList"></div>
+
+<hr>
+
+<input
+    type="text"
+    id="searchNurse"
+    placeholder="Search nurse..."
+    onkeyup="loadNurses()"
+>
+
+<h3>Approved Nurses</h3>
+<div id="approvedNurseList"></div>
+
+        <hr>
+
+        <h3>Upload Duty Roster</h3>
+
+<input
+    type="text"
+    id="rosterLink"
+    placeholder="Paste image or PDF link here"
+>
+
+<button onclick="uploadRoster()">
+    Upload Roster
+</button>
+
+<p id="uploadMessage"></p>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>

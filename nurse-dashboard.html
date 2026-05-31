@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nurse Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+</head>
+
+<body onload="loadNurseDashboard()">
+
+    <div class="container">
+
+        <h1>Nurse Dashboard</h1>
+
+        <h3 id="welcomeText"></h3>
+
+<h3>Notifications</h3>
+
+<div id="notificationBox">
+
+    No notifications
+
+</div>
+
+<button onclick="toggleDarkMode()">
+    🌙 Dark Mode
+</button>
+
+        <button onclick="logout()">
+            Logout
+        </button>
+
+        <hr>
+
+        <h3>Duty Roster</h3>
+        <div id="rosterSection"></div>
+
+        <hr>
+
+        <h3>Request Day Off</h3>
+
+        <input type="date" id="dayOff">
+
+        <button onclick="bookDayOff()">
+            Book Day Off
+        </button>
+
+        <button
+    class="extra-btn"
+    onclick="requestExtra()"
+>
+            Request Extra Day
+        </button>
+
+        <p id="message"></p>
+
+        <hr>
+
+        <h3>All Booked Days</h3>
+        <div id="bookedDays"></div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
