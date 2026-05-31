@@ -409,3 +409,18 @@ hr {
 .dark-mode button {
     opacity: 0.95;
 }
+
+.dark-mode {
+    background: #121212;
+    color: white;
+}
+
+.dark-mode .card,
+.dark-mode div {
+    background: #1f1f1f;
+    color: white;
+}
+
+.dark-mode button {
+    border: none;
+}

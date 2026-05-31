@@ -380,51 +380,55 @@ function bookDayOff() {
     }
 
     db.collection("bookings")
-        .where(
-            "date",
-            "==",
-            selectedDate
+    .where(
+        "date",
+        "==",
+        selectedDate
+    )
+    .get()
+
+    .then((snapshot) => {
+
+        if (!snapshot.empty) {
+
+            document.getElementById(
+                "message"
+            ).innerText =
+                "This date is already booked";
+
+            return;
+        }
+
+        return db.collection(
+            "bookings"
         )
-        .get()
+        .add({
 
-        .then((dateSnapshot) => {
+            name:
+                user.name,
 
-            if (
-                !dateSnapshot.empty
-            ) {
+            username:
+                user.username,
 
-                let bookedBy =
-                    dateSnapshot.docs[0]
-                        .data().name;
-
-                document.getElementById(
-                    "message"
-                ).innerText =
-                    "Day already booked by " +
-                    bookedBy;
-
-                return;
-            }
-
-            db.collection("bookings")
-                .add({
-                    name: user.name,
-                    username:
-                        user.username,
-                    date:
-                        selectedDate
-                })
-
-                .then(() => {
-
-                    document.getElementById(
-                        "message"
-                    ).innerText =
-                        "Day booked successfully ✔";
-
-                    loadBookedDays();
-                });
+            date:
+                selectedDate
         });
+    })
+
+    .then(() => {
+
+        loadBookedDays();
+
+        document.getElementById(
+            "message"
+        ).innerText =
+            "Day booked successfully ✔";
+    })
+
+    .catch((error) => {
+
+        console.log(error);
+    });
 }
 
 // ======================
@@ -586,17 +590,18 @@ function approveRequest(id) {
         let request =
             doc.data();
 
-       db.collection("bookings")
-.add({
-    name:
-        user.name,
+        return db.collection("bookings")
+        .add({
 
-    username:
-        user.username,
+            name:
+                request.name,
 
-    date:
-        selectedDate
-})
+            username:
+                request.username,
+
+            date:
+                request.date
+        })
 
         .then(() => {
 
@@ -620,19 +625,19 @@ function approveRequest(id) {
             )
             .doc(id)
             .delete();
-        })
-
-        .then(() => {
-
-            alert(
-                "Request approved ✔"
-            );
-
-            loadRequests();
-            loadBookedDays();
-            loadStats();
-            loadBookingCalendar();
         });
+    })
+
+    .then(() => {
+
+        alert(
+            "Request approved ✔"
+        );
+
+        loadRequests();
+        loadBookedDays();
+        loadStats();
+        loadBookingCalendar();
     })
 
     .catch((error) => {
@@ -640,7 +645,6 @@ function approveRequest(id) {
         console.log(error);
     });
 }
-
 
 // ======================
 // REJECT REQUEST
@@ -1212,6 +1216,7 @@ function uploadRoster() {
 
         console.log(error);
 
+
         document.getElementById(
             "uploadMessage"
         ).innerText =
@@ -1324,3 +1329,53 @@ function adminLogin() {
             "Wrong admin login";
     }
 }
+
+// ======================
+// DARK MODE
+// ======================
+
+function toggleDarkMode() {
+
+    document.body.classList.toggle(
+        "dark-mode"
+    );
+
+    // Save mode
+    if (
+        document.body.classList.contains(
+            "dark-mode"
+        )
+    ) {
+
+        localStorage.setItem(
+            "theme",
+            "dark"
+        );
+    }
+
+    else {
+
+        localStorage.setItem(
+            "theme",
+            "light"
+        );
+    }
+}
+
+// Load saved mode
+window.onload = function () {
+
+    let savedTheme =
+        localStorage.getItem(
+            "theme"
+        );
+
+    if (
+        savedTheme === "dark"
+    ) {
+
+        document.body.classList.add(
+            "dark-mode"
+        );
+    }
+};
