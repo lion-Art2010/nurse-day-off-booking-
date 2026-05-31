@@ -379,15 +379,81 @@ function bookDayOff() {
         return;
     }
 
+    // Get month + year
+    let selected =
+        new Date(selectedDate);
+
+    let selectedMonth =
+        selected.getMonth();
+
+    let selectedYear =
+        selected.getFullYear();
+
+    // Check nurse bookings
     db.collection("bookings")
     .where(
-        "date",
+        "username",
         "==",
-        selectedDate
+        user.username
     )
     .get()
 
     .then((snapshot) => {
+
+        let alreadyBooked =
+            false;
+
+        snapshot.forEach((doc) => {
+
+            let booking =
+                doc.data();
+
+            let bookingDate =
+                new Date(
+                    booking.date
+                );
+
+            if (
+
+                bookingDate.getMonth()
+                === selectedMonth &&
+
+                bookingDate.getFullYear()
+                === selectedYear
+            ) {
+
+                alreadyBooked =
+                    true;
+            }
+        });
+
+        if (alreadyBooked) {
+
+            document.getElementById(
+                "message"
+            ).innerText =
+                "You already booked a day this month";
+
+            return;
+        }
+
+        // Check if date already taken
+        return db.collection(
+            "bookings"
+        )
+        .where(
+            "date",
+            "==",
+            selectedDate
+        )
+        .get();
+    })
+
+    .then((snapshot) => {
+
+        if (!snapshot) {
+            return;
+        }
 
         if (!snapshot.empty) {
 
