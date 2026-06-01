@@ -379,7 +379,6 @@ function bookDayOff() {
         return;
     }
 
-    // Get month + year
     let selected =
         new Date(selectedDate);
 
@@ -389,7 +388,7 @@ function bookDayOff() {
     let selectedYear =
         selected.getFullYear();
 
-    // Check nurse bookings
+    // Check if nurse already booked this month
     db.collection("bookings")
     .where(
         "username",
@@ -434,7 +433,9 @@ function bookDayOff() {
             ).innerText =
                 "You already booked a day this month";
 
-            return;
+            return Promise.reject(
+                "monthly-booking"
+            );
         }
 
         // Check if date already taken
@@ -451,10 +452,6 @@ function bookDayOff() {
 
     .then((snapshot) => {
 
-        if (!snapshot) {
-            return;
-        }
-
         if (!snapshot.empty) {
 
             document.getElementById(
@@ -462,9 +459,12 @@ function bookDayOff() {
             ).innerText =
                 "This date is already booked";
 
-            return;
+            return Promise.reject(
+                "date-booked"
+            );
         }
 
+        // Save booking
         return db.collection(
             "bookings"
         )
@@ -483,17 +483,32 @@ function bookDayOff() {
 
     .then(() => {
 
-        loadBookedDays();
-
         document.getElementById(
             "message"
         ).innerText =
             "Day booked successfully ✔";
+
+        loadBookedDays();
     })
 
     .catch((error) => {
 
-        console.log(error);
+        if (
+
+            error !==
+            "monthly-booking" &&
+
+            error !==
+            "date-booked"
+        ) {
+
+            console.log(error);
+
+            document.getElementById(
+                "message"
+            ).innerText =
+                "Booking failed";
+        }
     });
 }
 
