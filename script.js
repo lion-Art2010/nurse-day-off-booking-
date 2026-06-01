@@ -1173,81 +1173,7 @@ function nextMonth() {
 // LOAD DUTY ROSTER
 // ======================
 
-function loadRoster() {
-
-    let rosterSection =
-        document.getElementById(
-            "rosterSection"
-        );
-
-    if (!rosterSection) {
-        return;
-    }
-
-    db.collection("settings")
-    .doc("dutyRoster")
-    .get()
-
-    .then((doc) => {
-
-        if (!doc.exists) {
-
-            rosterSection.innerHTML =
-                "No roster uploaded";
-
-            return;
-        }
-
-        let data =
-            doc.data();
-
-        // IMAGE
-        if (
-            data.type.includes("image")
-        ) {
-
-            rosterSection.innerHTML =
-            `
-            <img
-                src="${data.link}"
-                width="100%"
-            >
-            `;
-        }
-
-        // PDF
-        else if (
-            data.type.includes("pdf")
-        ) {
-
-            rosterSection.innerHTML =
-            `
-            <iframe
-                src="${data.link}"
-                width="100%"
-                height="600"
-            >
-            </iframe>
-            `;
-        }
-
-        // OTHER FILES
-        else {
-
-            rosterSection.innerHTML =
-            `
-            <a href="${data.link}" target="_blank">
-                Open roster
-            </a>
-            `;
-        }
-    })
-
-    .catch((error) => {
-
-        console.log(error);
-    });
-}
+https://i.postimg.cc/YC6wKKH1/b551c210-8459-4bc4-8184-7cc57b2cfa90-(1).jpg
 
 // ======================
 // UPLOAD ROSTER
@@ -1309,64 +1235,41 @@ function uploadRoster() {
 // LOAD NOTIFICATIONS
 // ======================
 
-function loadNotifications() {
+function loadRoster() {
 
-    let user =
-        JSON.parse(
-            localStorage.getItem(
-                "loggedInUser"
-            )
-        );
-
-    let box =
+    let rosterSection =
         document.getElementById(
-            "notificationBox"
+            "rosterSection"
         );
 
-    if (
-        !user ||
-        !box
-    ) {
+    if (!rosterSection) {
         return;
     }
 
-    db.collection(
-        "notifications"
-    )
-    .where(
-        "username",
-        "==",
-        user.username
-    )
+    db.collection("settings")
+    .doc("dutyRoster")
     .get()
 
-    .then((snapshot) => {
+    .then((doc) => {
 
-        if (
-            snapshot.empty
-        ) {
+        if (!doc.exists) {
 
-            box.innerHTML =
-                "No notifications";
+            rosterSection.innerHTML =
+                "No roster uploaded";
 
             return;
         }
 
-        box.innerHTML =
-            "";
+        let data =
+            doc.data();
 
-        snapshot.forEach((doc) => {
-
-            let notification =
-                doc.data();
-
-            box.innerHTML +=
-                `
-                <p>
-                    ${notification.message}
-                </p>
-                `;
-        });
+        rosterSection.innerHTML =
+        `
+        <img
+            src="${data.link}"
+            width="100%"
+        >
+        `;
     })
 
     .catch((error) => {
