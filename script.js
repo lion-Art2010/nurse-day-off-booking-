@@ -1,5 +1,3 @@
-alert("correct");
-
 // ======================
 // FIREBASE CONFIG
 // ======================
@@ -58,7 +56,7 @@ function createAccount() {
             document.getElementById(
                 "message"
             ).innerText =
-                "Account sent to Firebase ✔";
+                "Request sent to Admin ✔";
         })
 
         .catch((error) => {
