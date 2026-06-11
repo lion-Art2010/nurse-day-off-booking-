@@ -1,4 +1,4 @@
-alert("script connected");
+alert("correct");
 
 // ======================
 // FIREBASE CONFIG

@@ -8,7 +8,10 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 </head>
 
-<body onload="loadNurseDashboard()">
+<body onload="
+loadNurseDashboard();
+loadBookingCalendar();
+">
 
     <div class="container">
 
@@ -64,10 +67,25 @@
     Show Booked Days
 </button>
 
-        <h3>All Booked Days</h3>
-        <div id="bookedDays"></div>
+        <h3>Booking Calendar</h3>
 
-    </div>
+<div class="calendar-controls">
+
+    <button onclick="previousMonth()">
+        ← Previous
+    </button>
+
+    <h2 id="calendarTitle">
+        Calendar
+    </h2>
+
+    <button onclick="nextMonth()">
+        Next →
+    </button>
+
+</div>
+<div id="bookingCalendar"></div>
+        <hr>
 
     <script src="script.js"></script>
 
