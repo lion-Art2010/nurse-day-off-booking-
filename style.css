@@ -424,3 +424,65 @@ hr {
 .dark-mode button {
     border: none;
 }
+
+/* ======================
+   MOBILE RESPONSIVE
+====================== */
+
+@media screen and (max-width: 768px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    input,
+    select,
+    button,
+    textarea {
+        width: 100%;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        width: 100%;
+    }
+
+    .dashboard-cards {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+    }
+
+    .card {
+        width: 100%;
+    }
+
+    #bookingCalendar {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 5px;
+    }
+
+    .calendar-day {
+        min-height: 70px;
+        font-size: 12px;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    iframe {
+        width: 100%;
+    }
+}
